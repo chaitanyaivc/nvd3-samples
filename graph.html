@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NVD3 graph</title>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<link href="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.css" rel="stylesheet">
+	<script src="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.js"></script>
+	<style>
+
+	#chart svg {
+  	height: 400px;
+
+	}
+	</style>
+</head>
+<body>
+	<div id="chart">
+		<svg></svg>
+	</div>
+	<script>
+		nv.addGraph(function () {
+			var chart = nv.models.lineChart()
+			.margin({left: 100})
+			.useInteractiveGuideline(true)
+
+			////
+			.showLegend(true)
+			.showXAxis(true)
+			.showYAxis(true)
+		;
+		chart.xAxis
+			.axisLabel('Time(ms)')
+			.tickFormat(d3.format(',r'));
+		chart.yAxis
+			.axisLabel('Voltage(v)')
+			.tickFormat(d3.format('.02f'));
+
+
+		var myData = [];
+
+
+		var inter = setInterval(function() {
+                myData = sinAndcos();
+                d3.select('#chart svg')
+			.datum(myData)
+			.call(chart);
+
+
+		nv.utils.windowResize(function () {chart.update()});
+		return chart;
+        }, 1000);
+
+
+
+		
+		});
+		function sinAndcos() {
+			var sin=[], sin2=[], cos=[];
+
+
+			for (var i = 0; i < 100; i++) {
+				sin.push({x: i, y: Math.random(i/10)});
+				sin2.push({x: i, y: Math.random(i/10) * 0.25 + .5});
+				cos.push({x: i, y: .5 * Math.random(i/10)});
+			}
+			return[
+				{
+					values: sin,
+					key: 'sine wave',
+					color: 'blue'
+				},
+				{
+					values: cos,
+					key: 'cosine wave',
+					color: 'red'
+				},
+				{
+					values: sin2,
+					key: 'Another sine wave',
+					color: 'brown',
+					area: true
+				}
+			];
+		}
+	</script>
+</body>
+</html>
