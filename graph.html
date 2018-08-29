@@ -39,7 +39,7 @@
 		var myData = [];
 
 
-		var inter = setInterval(function() {
+		window.setInterval(function() {
                 myData = sinAndcos();
                 d3.select('#chart svg')
 			.datum(myData)
